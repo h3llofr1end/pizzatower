@@ -12,7 +12,8 @@ class Pizza extends Model
     public function getPriceAttribute()
     {
         if(session()->get('currency') === 'eur') {
-            $rate = ConvertCurrency::find(['id' => ConvertCurrency::DEFAULT_CURRENCY.':'.session()->get('currency')])->first();
+            $rate = ConvertCurrency::find(['id' => ConvertCurrency::DEFAULT_CURRENCY.':'.strtoupper(session()->get('currency'))])->first();
+            dd(ConvertCurrency::count());
             return number_format($this->price_usd * $rate->rate, 2);
         } else {
             return $this->price_usd;
